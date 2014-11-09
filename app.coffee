@@ -65,7 +65,7 @@ initRoutes = (callback) ->
             res.send data.attributes
             
     env.app.get '/', (req,res) ->
-        res.render 'index.ejs', env.settings
+        res.render 'index.ejs', httpUrl: env.settings.httpUrl
 
 blab = (callback) ->
     env.points.findModels {}, {sort: { time: -1 }, limit: 1}, ((err,data) ->

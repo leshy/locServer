@@ -3,7 +3,8 @@
   var initialize;
 
   initialize = function() {
-    $.get('/api/v1/loc', function(data) {
+    console.log(window.httpUrl);
+    $.get(window.httpUrl + 'api/v1/loc', function(data) {
       var infowindow, map, mapOptions, marker, myLoc;
       mapOptions = {
         zoom: 14,

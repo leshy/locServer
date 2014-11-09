@@ -102,7 +102,9 @@
       });
     });
     return env.app.get('/', function(req, res) {
-      return res.render('index.ejs', env.settings);
+      return res.render('index.ejs', {
+        httpUrl: env.settings.httpUrl
+      });
     });
   };
 

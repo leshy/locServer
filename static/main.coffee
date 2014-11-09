@@ -1,7 +1,7 @@
 
-initialize = ->        
-
-    $.get '/api/v1/loc', (data) ->
+initialize = ->
+    console.log window.httpUrl
+    $.get window.httpUrl + 'api/v1/loc', (data) ->
         mapOptions =
             zoom: 14
             center: myLoc = new google.maps.LatLng(data.lat, data.lng)
