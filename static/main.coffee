@@ -46,7 +46,7 @@ initialize = ->
                 path: points,
                 geodesic: true,
                 strokeColor: '#ff0000',
-                strokeOpacity: 0.3,
+                strokeOpacity: 0.7,
                 strokeWeight: 2
             path.setMap map
 
