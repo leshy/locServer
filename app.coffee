@@ -20,8 +20,11 @@ remotecollections = require 'collections-remote/serverside'
 
 settings =
     httpport: 3335
+    httpUrl: '/'
     viewsFolder: __dirname + '/views'
     staticFolder: __dirname + '/static'
+
+settings = _.extend settings, require('./settings.js').settings
 
 env = { settings: settings }
 
@@ -62,7 +65,7 @@ initRoutes = (callback) ->
             res.send data.attributes
             
     env.app.get '/', (req,res) ->
-        res.render('index.ejs')
+        res.render 'index.ejs', env.settings
 
 blab = (callback) ->
     env.points.findModels {}, {sort: { time: -1 }, limit: 1}, ((err,data) ->

@@ -34,9 +34,12 @@
 
   settings = {
     httpport: 3335,
+    httpUrl: '/',
     viewsFolder: __dirname + '/views',
     staticFolder: __dirname + '/static'
   };
+
+  settings = _.extend(settings, require('./settings.js').settings);
 
   env = {
     settings: settings
@@ -99,7 +102,7 @@
       });
     });
     return env.app.get('/', function(req, res) {
-      return res.render('index.ejs');
+      return res.render('index.ejs', env.settings);
     });
   };
 
