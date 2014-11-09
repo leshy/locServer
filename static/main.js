@@ -4,7 +4,7 @@
 
   initialize = function() {
     console.log(window.httpUrl);
-    $.get(window.httpUrl + 'api/v1/loc', function(data) {
+    return $.get(window.httpUrl + 'api/v1/loc', function(data) {
       var infowindow, map, mapOptions, marker, myLoc;
       mapOptions = {
         zoom: 14,
@@ -15,16 +15,36 @@
       marker = new google.maps.Marker({
         position: myLoc,
         map: map,
-        title: 'Hello World!'
+        title: 'current location'
       });
       infowindow = new google.maps.InfoWindow({
         content: "<div>" + new Date(data.time) + "</div>"
       });
-      return google.maps.event.addListener(marker, 'click', function() {
+      google.maps.event.addListener(marker, 'click', function() {
         return infowindow.open(map, marker);
       });
+      return $.get(window.httpUrl + 'api/v1/locSeries', function(data) {
+        var path, points;
+        points = [];
+        data = data.split('\n');
+        data.forEach(function(entry) {
+          var point;
+          if (!entry) {
+            return;
+          }
+          point = JSON.parse(entry);
+          return points.push(new google.maps.LatLng(point.lat, point.lng));
+        });
+        path = new google.maps.Polyline({
+          path: points,
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+        return path.setMap(map);
+      });
     });
-    return console.log(map);
   };
 
   $('document').ready(initialize);

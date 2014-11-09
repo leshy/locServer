@@ -101,6 +101,58 @@
         return res.send(data.attributes);
       });
     });
+    env.app.get('/api/v1/locSeries', function(req, res) {
+      var counter, from, query, to;
+      if (req.query.from) {
+        from = {
+          time: {
+            "$gt": Number(from)
+          }
+        };
+      }
+      if (req.query.to) {
+        to = {
+          time: {
+            "$lt": Number(to)
+          }
+        };
+      }
+      if (from && to) {
+        query = {
+          "$and": [from, to]
+        };
+      }
+      if (!query && from) {
+        query = from;
+      }
+      if (!query && to) {
+        query = to;
+      }
+      if (!query) {
+        query = {
+          time: {
+            "$gt": new Date().getTime() - helpers.day
+          }
+        };
+      }
+      console.log("query", query);
+      counter = 0;
+      return env.points.findModels(query, {
+        sort: {
+          time: -1
+        }
+      }, (function(err, data) {
+        counter++;
+        return res.write(JSON.stringify({
+          time: data.attributes.time,
+          lat: data.attributes.lat,
+          lng: data.attributes.lng
+        }) + "\n");
+      }), function() {
+        console.log("DONE", counter);
+        return res.end();
+      });
+    });
     return env.app.get('/', function(req, res) {
       return res.render('index.ejs', {
         httpUrl: env.settings.httpUrl

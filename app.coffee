@@ -63,7 +63,26 @@ initRoutes = (callback) ->
     env.app.get '/api/v1/loc', (req,res) ->
         env.points.findModels {}, {sort: { time: -1 }, limit: 1}, (err,data) ->
             res.send data.attributes
-            
+
+    env.app.get '/api/v1/locSeries', (req,res) ->
+        if req.query.from then from = { time: { "$gt": Number(from) } }
+        if req.query.to then to = { time: { "$lt": Number(to) } }
+
+        if from and to then query = { "$and": [ from, to] }
+        if not query and from then query = from
+        if not query and to then query = to
+        if not query then query = { time: { "$gt":  new Date().getTime() - helpers.day}}
+        console.log "query", query
+        counter = 0
+        env.points.findModels query, {sort: { time: -1 }}, ((err,data) ->
+            counter++
+            res.write JSON.stringify({ time: data.attributes.time, lat: data.attributes.lat, lng: data.attributes.lng}) + "\n"
+            ), () ->
+                console.log "DONE", counter
+                res.end()
+        
+
+                                    
     env.app.get '/', (req,res) ->
         res.render 'index.ejs', httpUrl: env.settings.httpUrl
 

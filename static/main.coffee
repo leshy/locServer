@@ -13,16 +13,30 @@ initialize = ->
         marker = new google.maps.Marker
           position: myLoc,
           map: map,
-          title: 'Hello World!'
-
+          title: 'current location'
 
         infowindow = new google.maps.InfoWindow content: "<div>" + new Date(data.time) + "</div>"
         google.maps.event.addListener marker, 'click', -> 
             infowindow.open(map,marker);
+            
+        
+        $.get window.httpUrl + 'api/v1/locSeries', (data) ->
+            points = []
+            data = data.split('\n')
+            data.forEach (entry) ->
+                if not entry then return
+                point = JSON.parse(entry)
+                points.push new google.maps.LatLng(point.lat, point.lng)
+
+            path = new google.maps.Polyline
+                path: points,
+                geodesic: true,
+                strokeColor: '#FF0000',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+            path.setMap map
 
 
-
-    console.log map
 
 $('document').ready initialize
 
