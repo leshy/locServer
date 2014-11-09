@@ -23,16 +23,30 @@ initialize = ->
         $.get window.httpUrl + 'api/v1/locSeries', (data) ->
             points = []
             data = data.split('\n')
+            counter = 0
             data.forEach (entry) ->
                 if not entry then return
+                counter++
+#                if counter > 100 then return
                 point = JSON.parse(entry)
                 points.push new google.maps.LatLng(point.lat, point.lng)
 
+#                circle = new google.maps.Circle
+#                    map: map
+#                    center: new google.maps.LatLng(point.lat, point.lng)
+#                    radius: 5
+#                    strokeColor: '#0000ff',
+#                    strokeOpacity: 0.8,
+#                    strokeWeight: 0,
+#                    fillColor: '#0000ff',
+#                    fillOpacity: 0.35,
+
+                    
             path = new google.maps.Polyline
                 path: points,
                 geodesic: true,
-                strokeColor: '#FF0000',
-                strokeOpacity: 1.0,
+                strokeColor: '#ff0000',
+                strokeOpacity: 0.3,
                 strokeWeight: 2
             path.setMap map
 

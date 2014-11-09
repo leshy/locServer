@@ -24,22 +24,24 @@
         return infowindow.open(map, marker);
       });
       return $.get(window.httpUrl + 'api/v1/locSeries', function(data) {
-        var path, points;
+        var counter, path, points;
         points = [];
         data = data.split('\n');
+        counter = 0;
         data.forEach(function(entry) {
           var point;
           if (!entry) {
             return;
           }
+          counter++;
           point = JSON.parse(entry);
           return points.push(new google.maps.LatLng(point.lat, point.lng));
         });
         path = new google.maps.Polyline({
           path: points,
           geodesic: true,
-          strokeColor: '#FF0000',
-          strokeOpacity: 1.0,
+          strokeColor: '#ff0000',
+          strokeOpacity: 0.3,
           strokeWeight: 2
         });
         return path.setMap(map);
