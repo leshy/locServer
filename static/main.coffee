@@ -51,7 +51,7 @@ initialize = ->
         infowindow = new google.maps.InfoWindow content: "<div>" + new Date(data.time) + "</div>"
         google.maps.event.addListener marker, 'click', -> 
             infowindow.open(map,marker);
-
+        infowindow.open(map,marker);
 
 #        panoramioLayer = new google.maps.panoramio.PanoramioLayer();
 #        panoramioLayer.setMap(map);

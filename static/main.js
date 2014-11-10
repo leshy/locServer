@@ -60,6 +60,7 @@
       google.maps.event.addListener(marker, 'click', function() {
         return infowindow.open(map, marker);
       });
+      infowindow.open(map, marker);
       return $.get(window.httpUrl + 'api/v1/locSeries', function(data) {
         var buildMatcher, day, matchers, now;
         matchers = [];
