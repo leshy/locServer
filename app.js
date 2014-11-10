@@ -131,7 +131,7 @@
       if (!query) {
         query = {
           time: {
-            "$gt": new Date().getTime() - helpers.day
+            "$gt": new Date().getTime() - (helpers.day * 5)
           }
         };
       }

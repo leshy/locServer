@@ -71,7 +71,7 @@ initRoutes = (callback) ->
         if from and to then query = { "$and": [ from, to] }
         if not query and from then query = from
         if not query and to then query = to
-        if not query then query = { time: { "$gt":  new Date().getTime() - helpers.day}}
+        if not query then query = { time: { "$gt":  new Date().getTime() - (helpers.day * 5)}}
         console.log "query", query
         counter = 0
         env.points.findModels query, {sort: { time: -1 }}, ((err,data) ->
