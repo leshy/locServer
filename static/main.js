@@ -61,27 +61,67 @@
         return infowindow.open(map, marker);
       });
       return $.get(window.httpUrl + 'api/v1/locSeries', function(data) {
-        var counter, path, points;
-        points = [];
-        data = data.split('\n');
-        counter = 0;
-        data.forEach(function(entry) {
+        var buildMatcher, day, matchers, now;
+        matchers = [];
+        buildMatcher = function(properties, conditional) {
+          var collection;
+          if (properties == null) {
+            properties = {};
+          }
+          if (conditional == null) {
+            conditional = (function() {
+              return true;
+            });
+          }
+          collection = [];
+          return matchers.push(function(point) {
+            var path;
+            if (point === "draw") {
+              path = new google.maps.Polyline(_.extend({
+                path: collection,
+                geodesic: true,
+                strokeColor: '#ff0000',
+                strokeOpacity: 0.7,
+                strokeWeight: 2
+              }, properties));
+              path.setMap(map);
+            }
+            if (conditional(point)) {
+              collection.push(point.loc);
+              return true;
+            } else {
+              return false;
+            }
+          });
+        };
+        day = 1000 * 60 * 60 * 24;
+        now = new Date().getTime();
+        buildMatcher({
+          strokeColor: '#0000ff',
+          strokeWeight: 2
+        }, function(point) {
+          return point.time > now - day;
+        });
+        buildMatcher({
+          strokeColor: '#ff0000',
+          strokeWeight: 2
+        }, function(point) {
+          return point.time < now - day;
+        });
+        data.split('\n').forEach(function(entry) {
           var point;
           if (!entry) {
             return;
           }
-          counter++;
           point = JSON.parse(entry);
-          return points.push(new google.maps.LatLng(point.lat, point.lng));
+          point.loc = new google.maps.LatLng(point.lat, point.lng);
+          return _.map(matchers, function(matcher) {
+            return matcher(point);
+          });
         });
-        path = new google.maps.Polyline({
-          path: points,
-          geodesic: true,
-          strokeColor: '#ff0000',
-          strokeOpacity: 0.7,
-          strokeWeight: 2
+        return matchers.forEach(function(matcher) {
+          return matcher('draw');
         });
-        return path.setMap(map);
       });
     });
   };

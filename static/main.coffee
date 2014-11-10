@@ -72,34 +72,41 @@ initialize = ->
 
 
         $.get window.httpUrl + 'api/v1/locSeries', (data) ->
-            points = []
-            data = data.split('\n')
-            counter = 0
-            data.forEach (entry) ->
+
+            matchers = []
+            buildMatcher = (properties={},conditional=(-> true)) -> 
+                collection = []
+                matchers.push (point) ->
+                    if point is "draw"
+                        path = new google.maps.Polyline _.extend({
+                            path: collection,
+                            geodesic: true,
+                            strokeColor: '#ff0000',
+                            strokeOpacity: 0.7,
+                            strokeWeight: 2 }, properties)
+                            
+                        path.setMap map
+
+                    if conditional(point) then collection.push point.loc; return true else return false
+
+            day = 1000 * 60 * 60 * 24
+            now = new Date().getTime()
+            
+            buildMatcher { strokeColor: '#0000ff', strokeWeight: 2 }, (point) -> point.time > now - day
+#            buildMatcher { strokeColor: '#8800bb', strokeWeight: 3 }, (point) -> (point.time < now - day) and (point.time > now - day*3)
+#            buildMatcher { strokeColor: '#bb0088', strokeWeight: 2 }, (point) -> (point.time < now - day*3) and point.time > now - day*6
+            buildMatcher { strokeColor: '#ff0000', strokeWeight: 2 }, (point) -> point.time < now - day
+
+                                                
+            data.split('\n').forEach (entry) ->
                 if not entry then return
-                counter++
-#                if counter > 100 then return
                 point = JSON.parse(entry)
-                points.push new google.maps.LatLng(point.lat, point.lng)
+                point.loc = new google.maps.LatLng(point.lat, point.lng)
+                _.map matchers, (matcher) -> matcher(point)
 
-#                circle = new google.maps.Circle
-#                    map: map
-#                    center: new google.maps.LatLng(point.lat, point.lng)
-#                    radius: 5
-#                    strokeColor: '#0000ff',
-#                    strokeOpacity: 0.8,
-#                    strokeWeight: 0,
-#                    fillColor: '#0000ff',
-#                    fillOpacity: 0.35,
+            matchers.forEach (matcher) -> matcher('draw')
 
-                    
-            path = new google.maps.Polyline
-                path: points,
-                geodesic: true,
-                strokeColor: '#ff0000',
-                strokeOpacity: 0.7,
-                strokeWeight: 2
-            path.setMap map
+
 
 
 
