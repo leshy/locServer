@@ -43,8 +43,6 @@ initialize = ->
 
         map.mapTypes.set "Terminator", customMapType
 
-
-
         marker = new google.maps.Marker
           position: myLoc,
           map: map,
@@ -53,8 +51,26 @@ initialize = ->
         infowindow = new google.maps.InfoWindow content: "<div>" + new Date(data.time) + "</div>"
         google.maps.event.addListener marker, 'click', -> 
             infowindow.open(map,marker);
-            
-        
+
+
+#        panoramioLayer = new google.maps.panoramio.PanoramioLayer();
+#        panoramioLayer.setMap(map);
+#
+#        photoPanel = document.getElementById('photo-panel');
+#        map.controls[google.maps.ControlPosition.RIGHT_TOP].push(photoPanel);
+#
+#        google.maps.event.addListener panoramioLayer, 'click', (photo) -> 
+#            li = document.createElement('li');
+#            link = document.createElement('a');
+#            link.innerHTML = photo.featureDetails.title + ': ' +
+#            photo.featureDetails.author;
+#            link.setAttribute('href', photo.featureDetails.url);
+#            li.appendChild(link);
+#            photoPanel.appendChild(li);
+#            photoPanel.style.display = 'block';
+#                                    
+
+
         $.get window.httpUrl + 'api/v1/locSeries', (data) ->
             points = []
             data = data.split('\n')

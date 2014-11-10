@@ -11,13 +11,38 @@
 
     <style type="text/css">
       html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}
+
+      #panel {
+        position: absolute;
+        top: 5px;
+        left: 50%;
+        margin-left: -180px;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+      }
+#photo-panel {
+  background: #fff;
+  padding: 5px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 300px;
+  max-height: 300px;
+  font-size: 14px;
+  font-family: Arial;
+  border: 1px solid #ccc;
+  box-shadow: -2px 2px 2px rgba(33, 33, 33, 0.4);
+  display: none;
+}
+
     </style>
 
     <title>locServer</title>
     <script> 
       window.httpUrl = "<%= httpUrl %>"
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyAY8dBXwC9nyjL1u2Ehe5JJtpyKnAhTKZI"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyAY8dBXwC9nyjL1u2Ehe5JJtpyKnAhTKZI&libraries=panoramio"></script>
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="<%= httpUrl %>main.js"></script>
 

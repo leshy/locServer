@@ -29,7 +29,7 @@ settings = _.extend settings, require('./settings.js').settings
 env = { settings: settings }
 
 initDb = (callback) ->
-    env.db = new mongodb.Db 'loclog', new mongodb.Server('localhost', 27017), safe: true
+    env.db = new mongodb.Db 'loc', new mongodb.Server('localhost', 27017), safe: true
     env.db.open callback
 
 initCollections = (callback) ->
