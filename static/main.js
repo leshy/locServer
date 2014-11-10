@@ -97,16 +97,16 @@
         day = 1000 * 60 * 60 * 24;
         now = new Date().getTime();
         buildMatcher({
-          strokeColor: '#0000ff',
-          strokeWeight: 2
-        }, function(point) {
-          return point.time > now - day;
-        });
-        buildMatcher({
           strokeColor: '#ff0000',
           strokeWeight: 2
         }, function(point) {
           return point.time < now - day;
+        });
+        buildMatcher({
+          strokeColor: '#0000ff',
+          strokeWeight: 2
+        }, function(point) {
+          return point.time > now - day;
         });
         data.split('\n').forEach(function(entry) {
           var point;
