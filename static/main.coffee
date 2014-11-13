@@ -28,7 +28,7 @@ initialize = ->
 
 
         mapOptions =
-            zoom: 6
+            zoom: 12
             center: myLoc = new google.maps.LatLng(data.lat, data.lng)
             mapTypeControlOptions: {
               mapTypeIds: [google.maps.MapTypeId.ROADMAP,google.maps.MapTypeId.SATELLITE,google.maps.MapTypeId.HYBRID,"Terminator"]
