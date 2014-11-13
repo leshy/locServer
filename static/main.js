@@ -36,7 +36,7 @@
         }
       ];
       mapOptions = {
-        zoom: 1,
+        zoom: 11,
         center: myLoc = new google.maps.LatLng(data.lat, data.lng),
         mapTypeControlOptions: {
           mapTypeIds: [google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.HYBRID, "Terminator"]
