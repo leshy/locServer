@@ -28,7 +28,7 @@ initialize = ->
 
 
         mapOptions =
-            zoom: 12
+            zoom: 1
             center: myLoc = new google.maps.LatLng(data.lat, data.lng)
             mapTypeControlOptions: {
               mapTypeIds: [google.maps.MapTypeId.ROADMAP,google.maps.MapTypeId.SATELLITE,google.maps.MapTypeId.HYBRID,"Terminator"]
@@ -38,7 +38,6 @@ initialize = ->
         console.log data
     
         map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
         customMapType = new google.maps.StyledMapType featureOpts, { name: 'Terminator' }
 
         map.mapTypes.set "Terminator", customMapType

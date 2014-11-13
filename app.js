@@ -120,7 +120,9 @@
       }
       if (from && to) {
         query = {
-          ignore: false,
+          ignore: {
+            '$exists': false
+          },
           "$and": [from, to]
         };
       }
@@ -132,7 +134,9 @@
       }
       if (!query) {
         query = {
-          ignore: false,
+          ignore: {
+            '$exists': false
+          },
           time: {
             "$gt": new Date().getTime() - (helpers.day * 90)
           }

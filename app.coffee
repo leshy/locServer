@@ -69,10 +69,10 @@ initRoutes = (callback) ->
         if req.query.from then from = { time: { "$gt": Number(from) } }
         if req.query.to then to = { time: { "$lt": Number(to) } }
 
-        if from and to then query = { ignore: false, "$and": [ from, to] }
+        if from and to then query = { ignore: { '$exists' : false }, "$and": [ from, to] }
         if not query and from then query = from
         if not query and to then query = to
-        if not query then query = { ignore: false, time: { "$gt":  new Date().getTime() - (helpers.day * 90)}}
+        if not query then query = { ignore: { '$exists' : false }, time: { "$gt":  new Date().getTime() - (helpers.day * 90)}}
         console.log "query", query
         counter = 0
         env.points.findModels query, {sort: { time: -1 }}, ((err,data) ->
