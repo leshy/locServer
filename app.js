@@ -98,6 +98,7 @@
         },
         limit: 1
       }, function(err, data) {
+        console.log('loc', data.attributes);
         return res.send(data.attributes);
       });
     });
@@ -119,6 +120,7 @@
       }
       if (from && to) {
         query = {
+          ignore: false,
           "$and": [from, to]
         };
       }
@@ -130,6 +132,7 @@
       }
       if (!query) {
         query = {
+          ignore: false,
           time: {
             "$gt": new Date().getTime() - (helpers.day * 90)
           }
