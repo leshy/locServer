@@ -81,11 +81,12 @@ initRoutes = (callback) ->
             ), () ->
                 console.log "DONE", counter
                 res.end()
-        
-
-                                    
+                                            
     env.app.get '/', (req,res) ->
-        res.render 'index.ejs', httpUrl: env.settings.httpUrl
+        res.render 'loc.ejs', httpUrl: env.settings.httpUrl
+        
+    env.app.get '/series', (req,res) ->
+        res.render 'series.ejs', httpUrl: env.settings.httpUrl
 
 blab = (callback) ->
     env.points.findModels {}, {sort: { time: -1 }, limit: 1}, ((err,data) ->
@@ -105,3 +106,4 @@ init (err,data) ->
         console.log 'done!'
     else
         console.log 'fail!'
+

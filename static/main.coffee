@@ -91,9 +91,6 @@ initialize = ->
             day = 1000 * 60 * 60 * 24
             now = new Date().getTime()
             
-
-#            buildMatcher { strokeColor: '#8800bb', strokeWeight: 3 }, (point) -> (point.time < now - day) and (point.time > now - day*3)
-#            buildMatcher { strokeColor: '#bb0088', strokeWeight: 2 }, (point) -> (point.time < now - day*3) and point.time > now - day*6
             buildMatcher { strokeColor: '#ff0000', strokeWeight: 2 }, (point) -> point.time < now - day
             buildMatcher { strokeColor: '#0000ff', strokeWeight: 2 }, (point) -> point.time > now - day
                                                 
